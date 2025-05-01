@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Tinting Business</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Font Awesome -->
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <button id="showLoginBtn" type="button">Login</button>
+        <button id="showSignUpBtn" type="button">Sign Up</button>
+        <button id="showForgetPasswordBtn" type="button">Forgot Password?</button>
+    </div>
+
+    <div class="page-container">
+        <!-- Page Content -->
+        <div class="page-content">
+            <!-- Hero Section -->
+            <div class="hero-section">
+                <h1>Welcome to Car Tinting Business</h1>
+                <p>Experience the best car tinting services with professional quality and care.</p>
+            </div>
+        </div>
+
+        
+    <!-- Forms Section -->
+    <div id="signUpFormContainer" class="form-container">
+        <h2>Sign Up</h2>
+        <form id="userForm" action="" method="POST">
+            <label for="name">Name:</label>
+            <input type="text" id="name" placeholder="Enter your name" required autocomplete="name"><br>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" placeholder="Enter your email" required autocomplete="email"><br>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" placeholder="Enter your password" required autocomplete="new-password"><br>
+
+            <label for="role">Role:</label>
+            <select id="role" required>
+                <option value="admin">Admin</option>
+                <option value="employee">Employee</option>
+                <option value="customer">Client</option>
+            </select><br>
+
+            <button type="submit">Add New User</button>
+        </form>
+    </div>
+
+    <div id="loginFormContainer" class="form-container" hidden>
+        <h2>Login</h2>
+        <form id="loginForm">
+            <label for="loginEmail">Email:</label>
+            <input type="email" id="loginEmail" placeholder="Enter your email" required autocomplete="email"><br>
+
+            <label for="loginPassword">Password:</label>
+            <input type="password" id="loginPassword" placeholder="Enter your password" required autocomplete="current-password"><br>
+
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+    <div id="forgetPasswordFormContainer" class="form-container" hidden>
+        <h2>Forgot Password</h2>
+        <form id="forgetPasswordForm">
+            <label for="forgetPasswordUsername">Enter your Username:</label>
+            <input type="text" id="forgetPasswordUsername" placeholder="Enter your username" required autocomplete="username"><br>
+            <label for="forgetPasswordEmail">Enter your Email:</label>
+            <input type="text" id="forgetPasswordEmail" placeholder="Enter your email" required autocomplete="email"><br>
+
+            <button type="submit">Reset Password</button>
+        </form>
+    </div>
+
+    
+    
+    <div class="announcements">
+        <h2>Latest Announcements</h2>
+        <ul id="announcementItems">
+            <li><i class="fas fa-bullhorn"></i> <span>New Ceramic tint is available</span></li>
+            <li><i class="fas fa-bullhorn"></i> <span>Special discount on all services this month!</span></li>
+            <li><i class="fas fa-bullhorn"></i> <span>We are hiring! Join our team as a car tinting specialist.</span></li>
+            </span></li>
+            <li><i class="fas fa-bullhorn"></i> <span>Follow us on social media for updates!</span></li>
+        </ul>
+    </div>
+
+<!-- Contact Us Section -->
+<div class="contact-us">
+    <h2>Contact Us</h2>
+    <div class="contact-icons">
+        <a href="https://www.facebook.com" target="_blank" class="contact-item">
+            <i class="fab fa-facebook-square"></i> Facebook
+        </a>
+        <a href="mailto:info@cartinting.com" class="contact-item">
+            <i class="fas fa-envelope"></i> Email
+        </a>
+        <a href="tel:+1234567890" class="contact-item">
+            <i class="fas fa-phone"></i> +1 234 567 890
+        </a>
+        <a href="https://www.instagram.com" target="_blank" class="contact-item">
+            <i class="fab fa-instagram"></i> Instagram
+        </a>
+    </div>
+</div>
+
+    <div id="responseMessage" aria-live="polite"></div> <!-- To display success or error message -->
+
+    <script src="script.js"></script>
+</body>
+</html>

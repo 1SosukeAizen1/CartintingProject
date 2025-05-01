@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Font Awesome -->
+</head>
+<body>
+    <div id="notificationIcon" class="notification-icon hidden" onclick="viewNotifications()">
+        <i class="fas fa-bell"></i>
+        <span id="notificationCount" class="notification-count hidden">0</span>
+    </div>
+    
+    <div class="dashboard-container">
+        <h1>Welcome, Client</h1>
+        <div class="dashboard-grid">
+            <div class="dashboard-item" onclick="scheduleAppointment()">
+                <i class="fas fa-plus-circle"></i>
+                <h3>Schedule Appointment</h3>
+            </div>
+            <div class="dashboard-item" onclick="viewAppointments()">
+                <i class="fas fa-calendar-check"></i>
+                <h3>View My Appointments</h3>
+            </div>
+            <div class="dashboard-item" onclick="viewServices()">
+                <i class="fas fa-concierge-bell"></i>
+                <h3>View Services</h3>
+            </div>
+            <div class="dashboard-item" onclick="showSupportForm()">
+                <i class="fas fa-ticket-alt"></i>
+                <h3>Support</h3>
+            </div>
+            
+            <div class="dashboard-item" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+                <h3>Logout</h3>
+            </div>
+        </div>
+        <div id="supportSection" class="hidden">
+            <h2>Submit a Support Ticket</h2>
+            <form id="supportForm">
+                <textarea id="supportMessage" placeholder="Describe your issue..." required></textarea><br>
+                <button type="submit">Submit</button>
+            </form>
+            <p id="supportResponse"></p>
+        </div>
+        
+        <ul id="clientData"></ul>
+    </div>
+    
+    <div id="appointmentsDataContainer" class="data-container hidden">
+        <h2>My Appointments</h2>
+        <table id="appointmentsDataTable">
+            <thead>
+                <tr>
+                    <th>Appointment ID</th>
+                    <th>Vehicle Details</th>
+                    <th>Tint Type</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Appointment data will be dynamically inserted here -->
+            </tbody>
+        </table>
+    </div>
+    
+    <div id="updateAppointmentSection" class="hidden">
+        <h2>Update Appointment</h2>
+        <form id="updateAppointmentForm">
+            <label for="appointmentVehicleDetails">Vehicle Details:</label>
+            <input type="text" id="appointmentVehicleDetails" readonly><br>
+    
+            <label for="appointmentTintType">Tint Type:</label>
+            <label for="tintType">Tint Type:</label>
+            <select id="tintType" required>
+                <option value="Automotive Window Tinting">Automotive Window Tinting</option>
+                <option value="Standard dyed film">Standard dyed film</option>
+                <option value="Ceramic tint">Ceramic tint</option>
+                <option value="Carbon tint">Carbon tint</option>
+                <option value="Metalized film">Metalized film</option>
+                <option value="Infrared rejection tint">Infrared rejection tint</option>
+                <option value="UV protection film">UV protection film</option>
+                <option value="Privacy tints">Privacy tints</option>
+                <option value="Legal limit tinting (by state laws)">Legal limit tinting (by state laws)</option>
+                <option value="Tint Removal">Tint Removal</option>
+                <option value="Safe removal of old or bubbling tint films">Safe removal of old or bubbling tint films</option>
+                <option value="Custom Tinting">Custom Tinting</option>
+                <option value="Gradient or decorative tinting">Gradient or decorative tinting</option>
+                <option value="Colored or mirrored tints">Colored or mirrored tints</option>
+                <option value="Custom logos or designs etched into tint">Custom logos or designs etched into tint</option>
+            </select><br>
+    
+            <label for="appointmentDate">Date:</label>
+            <input type="date" id="appointmentDate" required><br>
+    
+            <label for="appointmentTime">Time:</label>
+            <input type="time" id="appointmentTime" required><br>
+    
+            <label for="appointmentStatus">Status:</label>
+            <input type="text" id="appointmentStatus" readonly><br>
+    
+            <button type="submit">Update Appointment</button>
+        </form>
+    </div>
+    
+    <div id="scheduleAppointmentSection" class="hidden">
+        <h2>Schedule an Appointment</h2>
+        <form id="scheduleAppointmentForm">
+
+            <label for="vehicleDetails">Vehicle Details:</label>
+            <input type="text" id="vehicleDetails" placeholder="Enter vehicle details" required><br>
+
+            
+            <label for="tintType">Tint Type:</label>
+                <select id="tintType" required>
+                    <option value="Automotive Window Tinting">Automotive Window Tinting</option>
+                    <option value="Standard dyed film">Standard dyed film</option>
+                    <option value="Ceramic tint">Ceramic tint</option>
+                    <option value="Carbon tint">Carbon tint</option>
+                    <option value="Metalized film">Metalized film</option>
+                    <option value="Infrared rejection tint">Infrared rejection tint</option>
+                    <option value="UV protection film">UV protection film</option>
+                    <option value="Privacy tints">Privacy tints</option>
+                    <option value="Legal limit tinting (by state laws)">Legal limit tinting (by state laws)</option>
+                    <option value="Tint Removal">Tint Removal</option>
+                    <option value="Safe removal of old or bubbling tint films">Safe removal of old or bubbling tint films</option>
+                    <option value="Custom Tinting">Custom Tinting</option>
+                    <option value="Gradient or decorative tinting">Gradient or decorative tinting</option>
+                    <option value="Colored or mirrored tints">Colored or mirrored tints</option>
+                    <option value="Custom logos or designs etched into tint">Custom logos or designs etched into tint</option>
+                </select><br>
+    
+            <label for="date">Date:</label>
+            <input type="date" id="date" required><br>
+    
+            <label for="time">Time:</label>
+            <input type="time" id="time" required><br>
+    
+            <button type="submit">Schedule Appointment</button>
+        </form>
+        <div id="responseMessage" aria-live="polite"></div> <!-- To display success or error message -->
+    </div>
+    <div id="servicesDataContainer" class="data-container hidden">
+        <h2>Available Services</h2>
+        <div id="servicesList" class="services-list">
+            <!-- Services will be dynamically inserted here -->
+        </div>
+    </div>
+    <script>
+
+function viewNotifications() {
+    const userId = localStorage.getItem('userId'); // Assuming userId is stored in localStorage
+
+    fetch(`http://localhost:3001/notifications/${userId}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to fetch notifications');
+            }
+            return response.json();
+        })
+        .then(data => {
+            const notifications = data.notifications;
+
+            if (notifications.length === 0) {
+                alert('No new notifications.');
+                return;
+            }
+
+            // Create or toggle the notification cloud
+            let notificationCloud = document.querySelector('.notification-cloud');
+            if (notificationCloud) {
+                notificationCloud.remove(); // Remove the cloud if it already exists
+                return;
+            }
+
+            notificationCloud = document.createElement('div');
+            notificationCloud.classList.add('notification-cloud');
+
+            const notificationList = notifications.map(notification => `
+                <div class="notification-item">
+                    <p>${notification.Message}</p>
+                    <span>${new Date(notification.Timestamp).toLocaleString()}</span>
+                    <button class="delete-notification-btn" onclick="deleteNotification(${notification.NotificationID})">X</button>
+                </div>
+            `).join('');
+
+            notificationCloud.innerHTML = `
+                <div class="notification-cloud-content">
+                    <h3>Notifications</h3>
+                    ${notificationList}
+                </div>
+            `;
+
+            const notificationIcon = document.getElementById('notificationIcon');
+            notificationIcon.appendChild(notificationCloud);
+        })
+        .catch(err => console.error('❌ Error fetching notifications:', err));
+}
+
+function deleteNotification(notificationId) {
+    fetch(`http://localhost:3001/notifications/${notificationId}`, {
+        method: 'DELETE'
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);
+        viewNotifications(); // Refresh the notifications list
+    })
+    .catch(err => console.error('❌ Error deleting notification:', err));
+}
+
+function closeNotificationModal() {
+    const notificationModal = document.querySelector('.notification-modal');
+    if (notificationModal) {
+        notificationModal.remove();
+    }
+}
+
+function checkNotifications() {
+    const userId = localStorage.getItem('userId'); // Assuming userId is stored in localStorage
+
+    fetch(`http://localhost:3001/notifications/${userId}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to fetch notifications');
+            }
+            return response.json();
+        })
+        .then(data => {
+            const notificationIcon = document.getElementById('notificationIcon');
+            const notificationCount = document.getElementById('notificationCount');
+
+            if (data.notifications && data.notifications.length > 0) {
+                notificationIcon.classList.add('glow');
+                notificationCount.textContent = data.notifications.length;
+                notificationCount.classList.remove('hidden');
+            } else {
+                notificationIcon.classList.remove('glow');
+                notificationCount.classList.add('hidden');
+            }
+        })
+        .catch(err => console.error('❌ Error fetching notifications:', err));
+}
+
+// Check for notifications every 30 seconds
+setInterval(checkNotifications, 30000);
+checkNotifications(); // Initial check
+        function showSupportForm() {
+            hideAllSections(); // Hide all other sections
+        document.getElementById('supportSection').classList.remove('hidden');
+    }
+    
+
+    document.getElementById('supportForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const userId = localStorage.getItem('userId'); // Assuming userId is stored in localStorage
+        const message = document.getElementById('supportMessage').value;
+
+        fetch('http://localhost:3001/support', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userId, message })
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('supportResponse').textContent = data.message;
+            document.getElementById('supportMessage').value = ''; // Clear the form
+        })
+        .catch(err => console.error('❌ Error submitting support ticket:', err));
+    });
+    document.getElementById('supportForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const userId = localStorage.getItem('userId'); // Assuming userId is stored in localStorage
+        const message = document.getElementById('supportMessage').value;
+
+        fetch('http://localhost:3001/support', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userId, message })
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('supportResponse').textContent = data.message;
+            document.getElementById('supportMessage').value = ''; // Clear the form
+        })
+        .catch(err => console.error('❌ Error submitting support ticket:', err));
+    });
+        document.getElementById('supportForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const userId = localStorage.getItem('userId'); // Assuming userId is stored in localStorage
+            const message = document.getElementById('supportMessage').value;
+
+            fetch('http://localhost:3001/support', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ userId, message })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('supportResponse').textContent = data.message;
+                document.getElementById('supportMessage').value = ''; // Clear the form
+            })
+            .catch(err => console.error('❌ Error submitting support ticket:', err));
+        });
+        function viewAppointments() {
+            hideAllSections(); // Hide all other sections
+            const userId = localStorage.getItem('userId'); // Get the logged-in user's ID
+
+            if (!userId) {
+                alert('You must be logged in to view your appointments.');
+                return;
+            }
+
+            fetch(`http://localhost:3001/appointments/${userId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch appointments');
+                    }
+                    return response.json();
+                })
+                .then(appointments => {
+                    const appointmentsDataContainer = document.getElementById('appointmentsDataContainer');
+                    const appointmentsDataTable = document.getElementById('appointmentsDataTable').querySelector('tbody');
+                    appointmentsDataTable.innerHTML = ''; // Clear previous data
+
+                    if (appointments.length === 0) {
+                        const noDataRow = document.createElement('tr');
+                        noDataRow.innerHTML = `<td colspan="7">No appointments found.</td>`;
+                        appointmentsDataTable.appendChild(noDataRow);
+                    } else {
+                        appointments.forEach(appointment => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${appointment.AppointmentID}</td>
+                                <td>${appointment.VehicleDetails}</td>
+                                <td>${appointment.TintType}</td>
+                                <td>${appointment.Date}</td>
+                                <td>${appointment.Time}</td>
+                                <td>${appointment.Status}</td>
+                                <td>
+                                    <button class="update-btn">Update</button>
+                                    <button class="delete-btn">Delete</button>
+                                </td>
+                            `;
+
+                            // Add event listeners for Update and Delete buttons
+                            row.querySelector('.update-btn').addEventListener('click', () => {
+                                showUpdateAppointmentForm(appointment);
+                            });
+                            row.querySelector('.delete-btn').addEventListener('click', () => {
+                                deleteAppointment(appointment.AppointmentID);
+                            });
+
+                            appointmentsDataTable.appendChild(row);
+                        });
+                    }
+
+                    appointmentsDataContainer.classList.remove('hidden'); // Show the table
+                })
+                .catch(err => console.error('❌ Error fetching appointments:', err));
+        }
+        function showUpdateAppointmentForm(appointment) {
+    if (!appointment.AppointmentID) {
+        alert('Invalid appointment ID.');
+        return;
+    }
+
+    hideAllSections(); // Hide all other sections
+    document.getElementById('updateAppointmentSection').classList.remove('hidden');
+
+    // Populate the form with the appointment's details
+    document.getElementById('appointmentVehicleDetails').value = appointment.VehicleDetails;
+    document.getElementById('appointmentTintType').value = appointment.TintType;
+    document.getElementById('appointmentDate').value = appointment.Date;
+    document.getElementById('appointmentTime').value = appointment.Time;
+    document.getElementById('appointmentStatus').value = appointment.Status;
+    
+    
+
+    // Handle form submission
+    document.getElementById('updateAppointmentForm').onsubmit = function (event) {
+        event.preventDefault();
+
+        const updatedAppointment = {
+            Date: document.getElementById('appointmentDate').value,
+            Time: document.getElementById('appointmentTime').value,
+            Status: document.getElementById('appointmentStatus').value
+        };
+
+        fetch(`http://localhost:3001/appointments/${appointment.AppointmentID}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(updatedAppointment)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to update appointment');
+            }
+            return response.json();
+        })
+        .then(data => {
+            alert(data.message);
+            document.getElementById('updateAppointmentSection').classList.add('hidden'); // Hide the form
+            viewAppointments(); // Refresh appointments table
+        })
+        .catch(err => console.error('❌ Error updating appointment:', err));
+    };
+}
+        function deleteAppointment(appointmentId) {
+            hideAllSections()
+            if (!appointmentId) {
+                alert('Invalid appointment ID.');
+                return;
+            }
+
+            if (!confirm('Are you sure you want to delete this appointment?')) {
+                return;
+            }
+
+            fetch(`http://localhost:3001/appointments/${appointmentId}`, {
+                method: 'DELETE'
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to delete appointment');
+                }
+                return response.json();
+            })
+            .then(data => {
+                alert(data.message);
+                viewAppointments(); // Refresh appointments table
+            })
+            .catch(err => console.error('❌ Error deleting appointment:', err));
+        }
+
+        function hideAllSections() {
+            document.getElementById('appointmentsDataContainer').classList.add('hidden');
+            document.getElementById('updateAppointmentSection').classList.add('hidden');
+            document.getElementById('scheduleAppointmentSection').classList.add('hidden');
+            document.getElementById('clientData').innerHTML = ''; // Clear client data
+            document.getElementById('servicesDataContainer').classList.add('hidden'); // Hide services section
+            document.getElementById('supportSection').classList.add('hidden'); // Hide support section
+
+
+
+        }
+
+        function scheduleAppointment() {
+            hideAllSections()
+            document.getElementById('scheduleAppointmentSection').classList.remove('hidden'); // Show the form
+
+            document.getElementById('scheduleAppointmentForm').addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                const vehicleDetails = document.getElementById('vehicleDetails').value.trim();
+                const tintType = document.getElementById('tintType').value.trim();
+                const date = document.getElementById('date').value;
+                const time = document.getElementById('time').value;
+                const userId = localStorage.getItem('userId'); // Get the logged-in user's ID
+
+                if (!vehicleDetails || !tintType || !date || !time) {
+                    alert('All fields are required.');
+                    return;
+                }
+                if (!userId) {
+                    alert('You must be logged in to schedule an appointment.');
+                    return;
+                }
+
+                fetch('http://localhost:3001/schedule-appointment', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ userId, vehicleDetails, tintType, date, time })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to schedule appointment');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    alert(data.message);
+                    document.getElementById('scheduleAppointmentForm').reset(); // Clear the form
+                    document.getElementById('scheduleAppointmentSection').classList.add('hidden'); // Hide the form
+                                // Redirect to the payment page with the amount as a query parameter
+                    const amount = calculateServicePrice(tintType); // Function to calculate price based on tint type
+                    window.location.href = `./payment.html?amount=${amount}&appointmentId=${data.appointmentId}`;
+                    
+                   
+                })
+                .catch(err => console.error('❌ Error scheduling appointment:', err));
+            });
+            
+        }
+        // Function to calculate the price of the service based on the tint type
+        function calculateServicePrice(tintType) {
+            const servicePrices = {
+                'Automotive Window Tinting': 150,
+                'Standard dyed film': 100,
+                'Ceramic tint': 250,
+                'Carbon tint': 200,
+                'Metalized film': 180,
+                'Infrared rejection tint': 300,
+                'UV protection film': 120,
+                'Privacy tints': 140,
+                'Legal limit tinting (by state laws)': 130,
+                'Tint Removal': 80,
+                'Safe removal of old or bubbling tint films': 90,
+                'Custom Tinting': 300,
+                'Gradient or decorative tinting': 220,
+                'Colored or mirrored tints': 250,
+                'Custom logos or designs etched into tint': 350
+            };
+
+            return servicePrices[tintType] || 0; // Return the price or 0 if the tint type is not found
+        }
+        function viewServices() {
+            hideAllSections();
+            document.getElementById('servicesDataContainer').classList.remove('hidden'); // Show the services section
+
+            fetch('http://localhost:3001/services')
+                .then(response => response.json())
+                .then(services => {
+                    const servicesList = document.getElementById('servicesList');
+                    servicesList.innerHTML = ''; // Clear previous data
+
+                    if (services.length === 0) {
+                        servicesList.innerHTML = '<p>No services available at the moment.</p>';
+                    } else {
+                        services.forEach(service => {
+                            const serviceCard = document.createElement('div');
+                            serviceCard.classList.add('service-card');
+                            serviceCard.innerHTML = `
+                                <h3>${service.Name}</h3>
+                                <p>${service.Description}</p>
+                                <p><strong>Price:</strong> $${service.Price}</p>
+                            `;
+                            servicesList.appendChild(serviceCard);
+                        });
+                    }
+                })
+                .catch(err => console.error('❌ Error fetching services:', err));
+        }
+    
+
+        function logout() {
+            localStorage.clear();
+            window.location.href = './index.html';
+            alert('You have been logged out successfully.');
+        }
+    </script>
+</body>
+</html>

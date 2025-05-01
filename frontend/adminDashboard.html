@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Font Awesome -->
+</head>
+<body>
+    <div class="dashboard-container">
+        <h1>Welcome, Admin</h1>
+        <div class="dashboard-grid">
+            <div class="dashboard-item" onclick="viewUsers()">
+                <i class="fas fa-users"></i>
+                <h3>Manage Users</h3>
+            </div>
+            <div class="dashboard-item" onclick="viewInventory()">
+                <i class="fas fa-boxes"></i>
+                <h3>Manage Inventory</h3>
+            </div>
+            <div class="dashboard-item" onclick="viewServices()">
+                <i class="fas fa-concierge-bell"></i>
+                <h3>Manage Services</h3>
+            </div>
+            
+            <div class="dashboard-item" onclick="viewAppointments()">
+                <i class="fas fa-bell"></i>
+                <h3>Update existing Appointment</h3>
+            </div>
+            <div class="dashboard-item" onclick="fetchSupportTickets()">
+                <i class="fas fa-ticket-alt"></i>
+                <h3>Support Tickets</h3>
+            </div>
+            <div class="dashboard-item" onclick="generateReport()">
+                <i class="fas fa-file-excel"></i>
+                <h3>Generate Report</h3>
+            </div>
+            <div class="dashboard-item" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+                <h3>Logout</h3>
+            </div>
+        </div>
+        <div id="supportTicketsSection" class="hidden">
+            <h2>Support Tickets</h2>
+            <table id="supportTicketsTable">
+                <thead>
+                    <tr>
+                        <th>Ticket ID</th>
+                        <th>User Name</th>
+                        <th>Email</th>
+                        <th>Message</th>
+                        <th>Status</th>
+                        <th>Timestamp</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Tickets will be dynamically populated -->
+                </tbody>
+            </table>
+        </div>
+        <!-- Table to display user data -->
+        <div id="adminDataContainer" class="data-container hidden">
+            <h2>Users</h2>
+            <table id="adminDataTable">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- User data will be dynamically inserted here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <div id="inventoryDataContainer" class="data-container hidden">
+        <h2>Inventory</h2>
+        
+        <table id="inventoryDataTable">
+            <thead>
+                <tr>
+                    <th>Item Name</th>
+                    <th>Quantity</th>
+                    <th>Supplier</th>
+                    <th>Reorder Level</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            
+            <tbody>
+                <!-- Inventory data will be dynamically inserted here -->
+            </tbody>
+        </table>
+        <button id="addInventoryButton" onclick="showAddInventoryForm()">Add New Item</button>
+    </div>
+    <div id="addInventorySection" class="hidden">
+        <h2>Add New Inventory Item</h2>
+        <form id="addInventoryForm">
+            <label for="newItemName">Item Name:</label>
+            <input type="text" id="newItemName" placeholder="Enter Item Name" required>
+            <label for="newItemQuantity">Quantity:</label>
+            <input type="number" id="newItemQuantity" placeholder="Enter Quantity" required>
+            <label for="newItemSupplier">Supplier:</label>
+            <input type="text" id="newItemSupplier" placeholder="Enter Supplier Name" required>
+            <label for="newItemReorderLevel">Reorder Level:</label>
+            <input type="number" id="newItemReorderLevel" placeholder="Enter Reorder Level" required>
+            <button type="submit">Add Item</button>
+        </form>
+    </div>
+    
+          
+            <!-- Update Inventory Section -->
+        <div id="updateInventorySection" class="hidden">
+            <h2>Update Inventory</h2>
+            <form id="updateInventoryForm">
+                <label for="inventoryItemName">Item Name:</label>
+                <input type="text" id="inventoryItemName" placeholder="Item Name" readonly>
+                <label for="inventoryQuantity">New Quantity:</label>
+                <input type="number" id="inventoryQuantity" placeholder="Enter New Quantity" required>
+                <button type="submit">Update Inventory</button>
+            </form>
+        </div>
+        <!-- Table to display services data -->
+        <div id="servicesDataContainer" class="data-container hidden">
+            <h2>Services</h2>
+            <table id="servicesDataTable">
+                <thead>
+                    <tr>
+                        <th>Service Name</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Services data will be dynamically inserted here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+            <!-- Table to display appointments -->
+        <div id="appointmentsDataContainer" class="data-container hidden">
+            <h2>Ongoing Appointments</h2>
+            <table id="appointmentsDataTable">
+                <thead>
+                    <tr>
+                        <th>Appointment ID</th>
+                        <th>Client Name</th>
+                        <th>Service</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Appointment data will be dynamically inserted here -->
+                </tbody>
+            </table>
+        </div>
+         <!-- Update Appointment Section -->
+    <div id="updateAppointmentSection" class="hidden">
+        <h2>Update Appointment</h2>
+        <form id="updateAppointmentForm">
+            <label for="appointmentId">Appointment ID:</label>
+            <input type="text" id="appointmentId" placeholder="Enter Appointment ID" required>
+            <label for="appointmentStatus">New Status:</label>
+            <select id="appointmentStatus" required>
+                <option value="">Select Status</option>
+                <option value="Completed">Completed</option>
+                <option value="Canceled">Canceled</option>
+                <option value="Pending">Pending</option>
+            </select>
+            <button type="submit">Update Appointment</button>
+        </form>
+    </div>
+</div>
+       
+
+        <!-- Make Announcement Modal -->
+        <div id="announcementModal" class="modal hidden">
+            <div class="modal-content">
+                <span class="close" onclick="closeAnnouncementModal()">&times;</span>
+                <h2>Make Announcement</h2>
+                <textarea id="announcementMessage" placeholder="Enter your announcement here"></textarea>
+                <div class="modal-buttons">
+                    <button onclick="submitAnnouncement()">Submit</button>
+                    <button onclick="closeAnnouncementModal()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    
+    <!-- Notification Modal -->
+<div id="notificationModal" class="modal hidden">
+    <div class="modal-content">
+        <span class="close" onclick="closeNotificationModal()">&times;</span>
+        <h2>Notification Box</h2>
+        <p id="notificationUserName"></p>
+        <textarea id="notificationMessage" placeholder="Enter your message here"></textarea>
+        <div class="modal-buttons">
+            <button onclick="submitNotification()">Send</button>
+            <button onclick="closeNotificationModal()">Cancel</button>
+        </div>
+    </div>
+</div>
+<div id="addServiceSection" class="hidden">
+    <h2>Add New Service</h2>
+    <form id="addServiceForm">
+        <label for="serviceName">Service Name:</label>
+        <select id="serviceName" required>
+            <option value="Automotive Window Tinting">Automotive Window Tinting</option>
+            <option value="Standard dyed film">Standard dyed film</option>
+            <option value="Ceramic tint">Ceramic tint</option>
+            <option value="Carbon tint">Carbon tint</option>
+            <option value="Metalized film">Metalized film</option>
+            <option value="Infrared rejection tint">Infrared rejection tint</option>
+            <option value="UV protection film">UV protection film</option>
+            <option value="Privacy tints">Privacy tints</option>
+            <option value="Legal limit tinting (by state laws)">Legal limit tinting (by state laws)</option>
+            <option value="Tint Removal">Tint Removal</option>
+            <option value="Safe removal of old or bubbling tint films">Safe removal of old or bubbling tint films</option>
+            <option value="Custom Tinting">Custom Tinting</option>
+            <option value="Gradient or decorative tinting">Gradient or decorative tinting</option>
+            <option value="Colored or mirrored tints">Colored or mirrored tints</option>
+            <option value="Custom logos or designs etched into tint">Custom logos or designs etched into tint</option>
+        </select><br>
+
+        <label for="serviceDescription">Description:</label>
+        <textarea id="serviceDescription" placeholder="Enter service description" required></textarea><br>
+
+        <label for="servicePrice">Price:</label>
+        <input type="number" id="servicePrice" placeholder="Enter service price" required><br>
+
+        <button type="submit">Add Service</button>
+    </form>
+</div>
+<div id="updateServiceSection" class="hidden">
+    <h2>Update Service</h2>
+    <form id="updateServiceForm">
+        <label for="updateServiceName">Service Name:</label>
+        <input type="text" id="updateServiceName" readonly><br>
+
+        <label for="updateServiceDescription">Description:</label>
+        <textarea id="updateServiceDescription" required></textarea><br>
+
+        <label for="updateServicePrice">Price:</label>
+        <input type="number" id="updateServicePrice" required><br>
+
+        <button type="submit">Update Service</button>
+    </form>
+</div>
+<div id="assignJobModal" class="modal hidden">
+    <div class="modal-content">
+        <span class="close" onclick="closeAssignJobModal()">&times;</span>
+        <h2>Assign Job</h2>
+        <p id="assignJobAppointmentId"></p>
+        <label for="employeeSelect">Select Employee:</label>
+        <select id="employeeSelect">
+            <!-- Employee options will be dynamically populated -->
+        </select>
+        <button onclick="assignJob()">Assign</button>
+    </div>
+</div>
+    
+    <script>
+        function generateReport() {
+            fetch('http://localhost:3001/admin/reports')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to generate report');
+                    }
+                    return response.blob();
+                })
+                .then(blob => {
+                    // Create a download link for the Excel file
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'appointments_report.xlsx';
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                })
+                .catch(err => console.error('❌ Error generating report:', err));
+        }
+        function fetchSupportTickets() {
+            hideAllTables(); // Hide other sections
+            document.getElementById('supportTicketsSection').classList.remove('hidden'); // Show support tickets section
+
+            fetch('http://localhost:3001/support')
+                .then(response => response.json())
+                .then(tickets => {
+                    const tableBody = document.getElementById('supportTicketsTable').querySelector('tbody');
+                    tableBody.innerHTML = ''; // Clear previous data
+
+                    tickets.forEach(ticket => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${ticket.TicketID}</td>
+                            <td>${ticket.UserName}</td>
+                            <td>${ticket.Email}</td>
+                            <td>${ticket.Message}</td>
+                            <td>${ticket.Status}</td>
+                            <td>${new Date(ticket.Timestamp).toLocaleString()}</td>
+                            <td>
+                                <select onchange="updateTicketStatus(${ticket.TicketID}, this.value)">
+                                    <option value="Open" ${ticket.Status === 'Open' ? 'selected' : ''}>Open</option>
+                                    <option value="In Progress" ${ticket.Status === 'In Progress' ? 'selected' : ''}>In Progress</option>
+                                    <option value="Resolved" ${ticket.Status === 'Resolved' ? 'selected' : ''}>Resolved</option>
+                                </select>
+                            </td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                })
+                .catch(err => console.error('❌ Error fetching support tickets:', err));
+        }
+
+    function updateTicketStatus(ticketId, status) {
+        fetch(`http://localhost:3001/support/${ticketId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ status })
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message);
+            fetchSupportTickets(); // Refresh the table
+        })
+        .catch(err => console.error('❌ Error updating ticket status:', err));
+    }
+
+    // Fetch tickets on page load
+    fetchSupportTickets();
+        function showAssignJobForm(appointment) {
+    document.getElementById('assignJobModal').classList.remove('hidden');
+    document.getElementById('assignJobAppointmentId').textContent = `Assign job for Appointment ID: ${appointment.AppointmentID}`;
+
+    // Fetch available employees
+    fetch('http://localhost:3001/employees')
+        .then(response => response.json())
+        .then(employees => {
+            const employeeSelect = document.getElementById('employeeSelect');
+            employeeSelect.innerHTML = ''; // Clear previous options
+
+            if (employees.length === 0) {
+                const noOption = document.createElement('option');
+                noOption.textContent = 'No employees available';
+                noOption.disabled = true;
+                employeeSelect.appendChild(noOption);
+            } else {
+                employees.forEach(employee => {
+                    const option = document.createElement('option');
+                    option.value = employee.EmployeeID;
+                    option.textContent = `${employee.Name} (ID: ${employee.EmployeeID})`;
+                    employeeSelect.appendChild(option);
+                });
+            }
+        })
+        .catch(err => console.error('❌ Error fetching employees:', err));
+}
+        // Function to view appointments
+        function viewAppointments() {
+    hideAllTables();
+    fetch('http://localhost:3001/appointments')
+        .then(response => response.json())
+        .then(appointments => {
+            const appointmentsDataContainer = document.getElementById('appointmentsDataContainer');
+            const appointmentsDataTable = document.getElementById('appointmentsDataTable').querySelector('tbody');
+            appointmentsDataTable.innerHTML = ''; // Clear previous data
+
+            appointments.forEach(appointment => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${appointment.AppointmentID}</td>
+                    <td>${appointment.ClientName}</td>
+                    <td>${appointment.Service}</td>
+                    <td>${new Date(appointment.Date).toLocaleDateString()}</td>
+                    <td>${appointment.Status}</td>
+                    <td>
+                        <button class="assign-job-btn" onclick="showAssignJobForm(appointment)">Assign Job</button>
+                        <button class="update-appointment-btn" onclick="showUpdateAppointmentForm(appointment)">Update</button>
+                    </td>
+                `;
+
+                appointmentsDataTable.appendChild(row);
+            });
+
+            appointmentsDataContainer.classList.remove('hidden'); // Show the table
+        })
+        .catch(err => console.error('❌ Error fetching appointments:', err));
+}   
+function assignJob() {
+    const appointmentId = document.getElementById('assignJobAppointmentId').textContent.split(': ')[1];
+    const employeeId = document.getElementById('employeeSelect').value;
+
+    if (!employeeId) {
+        alert('Please select an employee.');
+        return;
+    }
+
+    fetch(`http://localhost:3001/appointments/${appointmentId}/assign`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ employeeId })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to assign job');
+        }
+        return response.json();
+    })
+    .then(data => {
+        alert(data.message);
+        closeAssignJobModal();
+        viewAppointments(); // Refresh appointments table
+    })
+    .catch(err => console.error('❌ Error assigning job:', err));
+}
+function closeAssignJobModal() {
+    document.getElementById('assignJobModal').classList.add('hidden');
+}
+        // Function to hide all tables
+        function hideAllTables() {
+            document.getElementById('adminDataContainer').classList.add('hidden');
+            document.getElementById('inventoryDataContainer').classList.add('hidden');
+            document.getElementById('servicesDataContainer').classList.add('hidden');
+            document.getElementById('appointmentsDataContainer').classList.add('hidden');
+            document.getElementById('addInventorySection').classList.add('hidden');
+            document.getElementById('updateInventorySection').classList.add('hidden');
+            document.getElementById('updateAppointmentSection').classList.add('hidden');    
+            document.getElementById('notificationModal').classList.add('hidden');
+            document.getElementById('addServiceSection').classList.add('hidden');
+            document.getElementById('updateServiceSection').classList.add('hidden');
+            document.getElementById('supportTicketsSection').classList.add('hidden');  
+
+        }
+        // View Users
+        function viewUsers() {
+    hideAllTables();
+    fetch('http://localhost:3001/users')
+        .then(response => response.json())
+        .then(users => {
+            // Sort users by role
+            users.sort((a, b) => a.Role.localeCompare(b.Role));
+
+            const adminDataContainer = document.getElementById('adminDataContainer');
+            const adminDataTable = document.getElementById('adminDataTable').querySelector('tbody');
+            adminDataTable.innerHTML = ''; // Clear previous data
+
+            users.forEach(user => {
+                const row = document.createElement('tr');
+                // Add a class based on the user's role
+                const roleClass = user.Role.toLowerCase(); // Convert role to lowercase for consistency
+                row.classList.add(roleClass);
+
+                row.innerHTML = `
+                    <td>${user.Name}</td>
+                    <td>${user.Email}</td>
+                    <td>${user.Role}</td>
+                `;
+
+                // Add click event to send notification
+                row.addEventListener('click', () => {
+                    sendNotification(user.UserID, user.Name);
+                });
+
+                adminDataTable.appendChild(row);
+            });
+
+            adminDataContainer.classList.remove('hidden'); // Show the table
+        })
+        .catch(err => console.error('❌ Error fetching users:', err));
+}
+function viewInventory() {
+    hideAllTables();
+    fetch('http://localhost:3001/inventory')
+        .then(response => response.json())
+        .then(items => {
+            const inventoryDataContainer = document.getElementById('inventoryDataContainer');
+            const inventoryDataTable = document.getElementById('inventoryDataTable').querySelector('tbody');
+            inventoryDataTable.innerHTML = ''; // Clear previous data
+
+            items.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${item.Name}</td>
+                    <td>${item.Quantity}</td>
+                    <td>${item.Supplier}</td>
+                    <td>${item.ReorderLevel}</td>
+                    <td>
+                        <button class="update-btn">Update</button>
+                        <button class="delete-btn">Delete</button>
+                    </td>
+                `;
+
+                // Add event listeners for Update and Delete buttons
+                row.querySelector('.update-btn').addEventListener('click', () => {
+                    document.getElementById('addInventorySection').classList.add('hidden');
+                    showUpdateInventoryForm(item.ItemID);
+                });
+                row.querySelector('.delete-btn').addEventListener('click', () => {
+                    deleteInventoryItem(item.ItemID);
+                });
+
+                inventoryDataTable.appendChild(row);
+            });
+
+            inventoryDataContainer.classList.remove('hidden'); // Show the table
+        })
+        .catch(err => console.error('❌ Error fetching inventory:', err));
+}
+function showAddInventoryForm() {
+    document.getElementById('updateInventorySection').classList.add('hidden');
+    document.getElementById('addInventorySection').classList.remove('hidden');
+}
+document.getElementById('addInventoryForm').addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    const Item = {
+        Name: document.getElementById('newItemName').value.trim(),
+        Quantity: document.getElementById('newItemQuantity').value.trim(),
+        Supplier: document.getElementById('newItemSupplier').value.trim(),
+        ReorderLevel: document.getElementById('newItemReorderLevel').value.trim()
+    };
+
+    if (!Item.Name || !Item.Quantity || !Item.Supplier || !Item.ReorderLevel) {
+        alert('Please fill out all fields.');
+        return;
+    }
+
+    fetch('http://localhost:3001/inventory', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(Item) // Corrected from `newItem` to `Item`
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);
+        document.getElementById('addInventoryForm').reset(); // Clear the form
+        document.getElementById('addInventorySection').classList.add('hidden'); // Hide the form
+        viewInventory(); // Refresh inventory table
+    })
+    .catch(err => console.error('❌ Error adding inventory item:', err));
+});
+function showUpdateInventoryForm(itemId) {
+    hideAllTables()
+    // Fetch the item's details from the backend
+    fetch(`http://localhost:3001/inventory/${itemId}`)
+        .then(response => response.json())
+        .then(item => {
+            // Populate the form with the item's details
+            document.getElementById('updateInventorySection').classList.remove('hidden');
+            document.getElementById('inventoryItemName').value = item.Name;
+            document.getElementById('inventoryQuantity').value = item.Quantity;
+
+            // Handle form submission
+            document.getElementById('updateInventoryForm').onsubmit = function (event) {
+                event.preventDefault();
+                const newQuantity = document.getElementById('inventoryQuantity').value.trim();
+
+                // Validate the new quantity
+                if (newQuantity === '' || isNaN(newQuantity)) {
+                    alert('Invalid quantity');
+                    return;
+                }
+
+                // Send the update request to the backend
+                fetch(`http://localhost:3001/inventory/${itemId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ Quantity: newQuantity })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to update inventory');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    alert(data.message);
+                    document.getElementById('updateInventoryForm').reset(); // Clear the form
+                    document.getElementById('updateInventorySection').classList.add('hidden'); // Hide the form
+                    viewInventory(); // Refresh inventory table
+                })
+                .catch(err => {
+                    console.error('❌ Error updating inventory:', err);
+                    alert('Failed to update inventory. Please try again.');
+                });
+            };
+        })
+        .catch(err => {
+            console.error('❌ Error fetching inventory item:', err);
+            alert('Failed to fetch inventory item. Please try again.');
+        });
+}
+function deleteInventoryItem(itemId) {
+    if (!confirm('Are you sure you want to delete this item?')) {
+        return;
+    }
+
+    fetch(`http://localhost:3001/inventory/${itemId}`, {
+        method: 'DELETE'
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);
+        viewInventory(); // Refresh inventory table
+    })
+    .catch(err => console.error('❌ Error deleting inventory item:', err));
+}
+        // View Services
+        function viewServices() {
+    hideAllTables();
+    fetch('http://localhost:3001/services')
+        .then(response => response.json())
+        .then(services => {
+            const servicesDataContainer = document.getElementById('servicesDataContainer');
+            const servicesDataTable = document.getElementById('servicesDataTable').querySelector('tbody');
+            servicesDataTable.innerHTML = '';
+
+            services.forEach(service => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${service.Name}</td>
+                    <td>${service.Description}</td>
+                    <td>$${service.Price}</td>
+                    <td>
+                        <button class="update-btn">Update</button>
+                    </td>
+                `;
+
+                row.querySelector('.update-btn').addEventListener('click', () => {
+                    showUpdateServiceForm(service);
+                });
+
+                servicesDataTable.appendChild(row);
+            });
+
+            servicesDataContainer.classList.remove('hidden');
+        })
+        .catch(err => console.error('❌ Error fetching services:', err));
+}
+        document.getElementById('addServiceForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const newService = {
+                Name: document.getElementById('serviceName').value,
+                Description: document.getElementById('serviceDescription').value.trim(),
+                Price: document.getElementById('servicePrice').value.trim()
+            };
+
+            fetch('http://localhost:3001/services', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newService)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                document.getElementById('addServiceForm').reset();
+                document.getElementById('addServiceSection').classList.add('hidden');
+                viewServices(); // Refresh services table
+            })
+            .catch(err => console.error('❌ Error adding service:', err));
+        });
+        function showUpdateServiceForm(service) {
+            document.getElementById('updateServiceSection').classList.remove('hidden');
+            document.getElementById('updateServiceName').value = service.Name;
+            document.getElementById('updateServiceDescription').value = service.Description;
+            document.getElementById('updateServicePrice').value = service.Price;
+
+            document.getElementById('updateServiceForm').onsubmit = function (event) {
+                event.preventDefault();
+
+                const updatedService = {
+                    Description: document.getElementById('updateServiceDescription').value.trim(),
+                    Price: document.getElementById('updateServicePrice').value.trim()
+                };
+
+                fetch(`http://localhost:3001/services/${service.ServiceID}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(updatedService)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                    document.getElementById('updateServiceSection').classList.add('hidden');
+                    viewServices(); // Refresh services table
+                })
+                .catch(err => console.error('❌ Error updating service:', err));
+            };
+        }
+        let selectedUserId = null; // Store the selected user's ID
+
+        function sendNotification(userId, userName) {
+            selectedUserId = userId; // Store the user ID for later use
+            document.getElementById('notificationUserName').textContent = `Send notification to ${userName}`;
+            document.getElementById('notificationMessage').value = ''; // Clear the message box
+            document.getElementById('notificationModal').classList.remove('hidden'); // Show the modal
+        }
+
+        function closeNotificationModal() {
+            document.getElementById('notificationModal').classList.add('hidden'); // Hide the modal
+        }
+
+        function submitNotification() {
+            const message = document.getElementById('notificationMessage').value.trim();
+            if (!message) {
+                alert('Notification message is required');
+                return;
+            }
+
+            fetch('http://localhost:3001/notifications', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ UserID: selectedUserId, Message: message })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                closeNotificationModal(); // Close the modal after sending
+            })
+            .catch(err => console.error('❌ Error sending notification:', err));
+        }
+        // View Appointments
+        function viewAppointments() {
+            hideAllTables(); // Hide all other sections
+            fetch('http://localhost:3001/appointments') // Fetch all appointments
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch appointments');
+                    }
+                    return response.json();
+                })
+                .then(appointments => {
+                    const appointmentsDataContainer = document.getElementById('appointmentsDataContainer');
+                    const appointmentsDataTable = document.getElementById('appointmentsDataTable').querySelector('tbody');
+                    appointmentsDataTable.innerHTML = ''; // Clear previous data
+
+                    if (appointments.length === 0) {
+                        const noDataRow = document.createElement('tr');
+                        noDataRow.innerHTML = `<td colspan="6">No appointments found.</td>`;
+                        appointmentsDataTable.appendChild(noDataRow);
+                    } else {
+                        appointments.forEach(appointment => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${appointment.AppointmentID}</td>
+                                <td>${appointment.ClientName}</td>
+                                <td>${appointment.Service}</td>
+                                <td>${appointment.Date}</td>
+                                <td>${appointment.Status}</td>
+                                <td>
+                                    <button class="update-btn">Update</button>
+                                    <button class="assign-btn">Assign</button>
+                                </td>
+                                
+                            `;
+
+                            // Add event listener for the Update button
+                            row.querySelector('.update-btn').addEventListener('click', () => {
+                                showUpdateAppointmentForm(appointment);
+                            });
+                            // Add event listener for the Assign button
+                            row.querySelector('.assign-btn').addEventListener('click', () => {
+                                showAssignJobForm(appointment);
+                            });
+
+                            appointmentsDataTable.appendChild(row);
+                        });
+                    }
+
+                    appointmentsDataContainer.classList.remove('hidden'); // Show the table
+                })
+                .catch(err => {
+                    console.error('❌ Error fetching appointments:', err);
+                    alert('Failed to fetch appointments. Please try again later.');
+                });
+        }
+            
+        // Show Update Appointment Form
+
+        function showUpdateAppointmentForm(appointment) {
+            hideAllTables()
+            document.getElementById('updateAppointmentSection').classList.remove('hidden');
+            document.getElementById('appointmentId').value = appointment.AppointmentID; // Populate Appointment ID
+            document.getElementById('appointmentStatus').value = appointment.Status; // Populate current status
+
+            document.getElementById('updateAppointmentForm').onsubmit = function (event) {
+                event.preventDefault();
+                const newStatus = document.getElementById('appointmentStatus').value;
+
+                if (!newStatus) {
+                    alert('Status is required');
+                    return;
+                }
+
+                fetch(`http://localhost:3001/appointments/${appointment.AppointmentID}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ Status: newStatus })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to update appointment');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    alert(data.message);
+                    document.getElementById('updateAppointmentSection').classList.add('hidden'); // Hide the form
+                    viewAppointments(); // Refresh appointments table
+                })
+                .catch(err => {
+                    console.error('❌ Error updating appointment:', err);
+                    alert('Failed to update appointment. Please try again later.');
+                });
+            };
+        }
+        
+        
+                
+
+        // Logout Function
+        function logout() {
+            localStorage.clear();
+            window.location.href = './index.html';
+            alert('You have been logged out successfully.');
+        }
+        // Hide all tables when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            hideAllTables();
+        });
+    </script>
+
+    
+
+</body>
+</html>

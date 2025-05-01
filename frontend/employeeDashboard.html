@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Font Awesome -->
+</head>
+<body>
+    <div id="notificationIcon" class="notification-icon hidden" onclick="viewNotifications()">
+        <i class="fas fa-bell"></i>
+        <span id="notificationCount" class="notification-count hidden">0</span>
+    </div>
+    <div class="dashboard-container">
+        <h1>Welcome, Employee</h1>
+        <div class="dashboard-grid">
+            <div class="dashboard-item" onclick="viewAssignedJobs()">
+                <i class="fas fa-tasks"></i>
+                <h3>View Assigned Jobs</h3>
+            </div>
+            
+            <div class="dashboard-item" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+                <h3>Logout</h3>
+            </div>
+        </div>
+        <ul id="employeeData"></ul>
+    </div>
+    <script>
+
+function viewNotifications() {
+    const userId = localStorage.getItem('userId'); // Assuming userId is stored in localStorage
+
+    fetch(`http://localhost:3001/notifications/${userId}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to fetch notifications');
+            }
+            return response.json();
+        })
+        .then(data => {
+            const notifications = data.notifications;
+
+            if (notifications.length === 0) {
+                alert('No new notifications.');
+                return;
+            }
+
+            // Create or toggle the notification cloud
+            let notificationCloud = document.querySelector('.notification-cloud');
+            if (notificationCloud) {
+                notificationCloud.remove(); // Remove the cloud if it already exists
+                return;
+            }
+
+            notificationCloud = document.createElement('div');
+            notificationCloud.classList.add('notification-cloud');
+
+            const notificationList = notifications.map(notification => `
+                <div class="notification-item">
+                    <p>${notification.Message}</p>
+                    <span>${new Date(notification.Timestamp).toLocaleString()}</span>
+                    <button class="delete-notification-btn" onclick="deleteNotification(${notification.NotificationID})">X</button>
+                </div>
+            `).join('');
+
+            notificationCloud.innerHTML = `
+                <div class="notification-cloud-content">
+                    <h3>Notifications</h3>
+                    ${notificationList}
+                </div>
+            `;
+
+            const notificationIcon = document.getElementById('notificationIcon');
+            notificationIcon.appendChild(notificationCloud);
+        })
+        .catch(err => console.error('❌ Error fetching notifications:', err));
+}
+
+function deleteNotification(notificationId) {
+    fetch(`http://localhost:3001/notifications/${notificationId}`, {
+        method: 'DELETE'
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);
+        viewNotifications(); // Refresh the notifications list
+    })
+    .catch(err => console.error('❌ Error deleting notification:', err));
+}
+
+
+function closeNotificationModal() {
+    const notificationModal = document.querySelector('.notification-modal');
+    if (notificationModal) {
+        notificationModal.remove();
+    }
+}
+        function checkNotifications() {
+    const userId = localStorage.getItem('userId'); // Assuming userId is stored in localStorage
+
+    fetch(`http://localhost:3001/notifications/${userId}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to fetch notifications');
+            }
+            return response.json();
+        })
+        .then(data => {
+            const notificationIcon = document.getElementById('notificationIcon');
+            const notificationCount = document.getElementById('notificationCount');
+
+            if (data.notifications && data.notifications.length > 0) {
+                notificationIcon.classList.add('glow');
+                notificationCount.textContent = data.notifications.length;
+                notificationCount.classList.remove('hidden');
+            } else {
+                notificationIcon.classList.remove('glow');
+                notificationCount.classList.add('hidden');
+            }
+        })
+        .catch(err => console.error('❌ Error fetching notifications:', err));
+}
+
+// Check for notifications every 30 seconds
+setInterval(checkNotifications, 30000);
+checkNotifications(); // Initial check
+        function viewAssignedJobs() {
+            const userId = localStorage.getItem('userId');
+            fetch(`http://localhost:3001/employees/${userId}/jobs`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch assigned jobs');
+                    }
+                    return response.json();
+                })
+                .then(jobs => {
+                    const employeeData = document.getElementById('employeeData');
+                    employeeData.innerHTML = ''; // Clear previous data
+
+                    if (jobs.length === 0 || !jobs[0].AssignedJobs) {
+                        const li = document.createElement('li');
+                        li.textContent = 'No jobs assigned yet.';
+                        li.classList.add('no-jobs');
+                        employeeData.appendChild(li);
+                    } else {
+                        const assignedJobs = jobs[0].AssignedJobs.split(';').filter(job => job.trim() !== '');
+                        assignedJobs.forEach(job => {
+                            const li = document.createElement('li');
+                            li.textContent = job;
+                            li.classList.add('job-item');
+                            employeeData.appendChild(li);
+                        });
+                    }
+                })
+                .catch(err => console.error('❌ Error fetching assigned jobs:', err));
+        }
+
+        
+
+        function logout() {
+            localStorage.clear();
+            window.location.href = './index.html';
+            alert('You have been logged out successfully.');
+        }
+    </script>
+</body>
+</html>

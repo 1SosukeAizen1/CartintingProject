@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="payment-container">
+        <h1>Complete Your Payment</h1>
+        <p>Your appointment has been scheduled. Please complete the payment to confirm your booking.</p>
+        <form id="paymentForm">
+            <label for="cardNumber">Card Number:</label>
+            <input type="text" id="cardNumber" placeholder="Enter your card number" required><br>
+
+            <label for="expiryDate">Expiry Date:</label>
+            <input type="text" id="expiryDate" placeholder="MM/YY" required><br>
+
+            <label for="cvv">CVV:</label>
+            <input type="text" id="cvv" placeholder="Enter CVV" required><br>
+
+            <label for="method">Payment Method:</label>
+            <select id="method" required>
+                <option value="" disabled selected>Select a payment method</option>
+                <option value="PayPal">PayPal</option>
+                <option value="Visa">Visa</option>
+                <option value="MasterCard">MasterCard</option>
+            </select><br>
+
+            <label for="amount">Amount:</label>
+            <input type="text" id="amount" readonly><br>
+
+            <button type="submit">Pay Now</button>
+        </form>
+    </div>
+    <script>
+        // Populate the amount field with the payment amount
+        const queryParams = new URLSearchParams(window.location.search);
+        const amount = queryParams.get('amount');
+        const appointmentId = queryParams.get('appointmentId'); // Get the appointment ID from the query params
+        document.getElementById('amount').value = `$${amount}`;
+
+        // Handle payment form submission
+        document.getElementById('paymentForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            // Collect payment details
+            const cardNumber = document.getElementById('cardNumber').value.trim();
+            const expiryDate = document.getElementById('expiryDate').value.trim();
+            const cvv = document.getElementById('cvv').value.trim();
+            const method = document.getElementById('method').value; // Get selected payment method
+
+            // Validate payment details
+            if (!cardNumber || !expiryDate || !cvv || !method) {
+                alert('Please fill in all payment details.');
+                return;
+            }
+
+            // Simulate payment success
+            alert('Processing payment...');
+
+            // Send payment details to the backend
+            fetch('http://localhost:3001/process-payment', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    AppointmentID: appointmentId,
+                    Amount: amount,
+                    Method: method, // Include the selected payment method
+                    TransactionStatus: 'Completed'
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to process payment');
+                }
+                return response.json();
+            })
+            .then(data => {
+                alert(data.message);
+
+                // Redirect to the client dashboard after successful payment
+                window.location.href = './clientDashboard.html';
+            })
+            .catch(err => {
+                console.error('❌ Error processing payment:', err);
+                alert('An error occurred while processing the payment. Please try again.');
+            });
+        });
+    </script>
+</body>
+</html>

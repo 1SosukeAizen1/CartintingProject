@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Your Profile</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Complete Your Profile</h1>
+        <form id="clientForm">
+            <label for="address">Address:</label>
+            <input type="text" id="address" placeholder="Enter Address" required><br>
+
+            <label for="phone">Phone:</label>
+            <input type="text" id="phone" placeholder="Enter Phone Number" required><br>
+
+            <label for="paymentDetails">Payment Details:</label>
+            <input type="text" id="paymentDetails" placeholder="Enter Payment Details" required><br>
+
+            <button type="submit">Submit</button>
+        </form>
+        <div id="responseMessage" aria-live="polite"></div> <!-- To display success or error message -->
+    </div>
+
+    <script>
+        document.getElementById('clientForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const userId = localStorage.getItem('userId'); // Get the logged-in user's ID
+            const address = document.getElementById('address').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const paymentDetails = document.getElementById('paymentDetails').value.trim();
+            const message = document.getElementById('responseMessage');
+
+            if (!address || !phone || !paymentDetails) {
+                message.textContent = 'Please fill out all fields.';
+                message.style.color = 'red';
+                return;
+            }
+
+            try {
+                const response = await fetch('http://localhost:3001/clients', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ userId, address, phone, paymentDetails })
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(errorText || 'Error updating profile.');
+                }
+
+                const data = await response.json();
+                message.textContent = data.message || 'Profile updated successfully!';
+                message.style.color = 'green';
+
+                // Redirect to the client dashboard after success
+                setTimeout(() => {
+                    window.location.href = './clientDashboard.html';
+                }, 2000);
+            } catch (error) {
+                console.error('Error:', error);
+                message.textContent = error.message || 'Error updating profile. Please try again later.';
+                message.style.color = 'red';
+            }
+        });
+    </script>
+</body>
+</html>

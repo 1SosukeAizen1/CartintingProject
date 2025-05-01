@@ -1,0 +1,1094 @@
+/* Keep existing styles as they are */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #1e1e1e;
+    color: #fff;
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+    background-image: url('/frontend/images/Background.png'); /* Replace with your image path */
+   
+    background-size: cover; /* Ensures the image covers the entire background */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    background-position: center; /* Centers the image */
+    height: max-content; /* Ensures the body takes up the full viewport height */
+    width:  100%; 
+}
+
+h1 {
+    font-size: 4rem;
+    background: linear-gradient(90deg, #54b2d4, #1392c8, #00ecf4);
+    background-size: 200% auto; /* Optional for animation */
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text; /* Needed for Safari/Chrome */
+    -webkit-text-fill-color: transparent; /* Needed for Safari/Chrome */
+    font-weight: 1000;
+}
+
+h2 {
+    font-size: 1.5rem;
+    background: linear-gradient(90deg, #090700, #139ec8, #00c3f4);
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text; /* Needed for Safari/Chrome */
+    -webkit-text-fill-color: transparent; /* Needed for Safari/Chrome */
+    font-weight: 900;
+}
+p{
+    font-size: 1.2rem;
+    background: linear-gradient(90deg, #444443, #20b3ed, #83cfe8);
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text; /* Needed for Safari/Chrome */
+    -webkit-text-fill-color: transparent; /* Needed for Safari/Chrome */
+    font-weight: 900;
+}
+
+form {
+    background-color: #383737;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    margin: 20px auto;
+    width: 250px;
+    text-align: left;
+}
+
+input, select, button {
+    
+    padding: 9%;
+    margin: 8px 0;
+    border-radius: 6px;
+    border: none;
+    font-size: 14px;
+}
+input, select {
+    width: 19% ;
+    background-color: #3a3a3a;
+    color: white;
+    border: 2px solid #555;
+}
+input {
+    
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: none;
+    font-size: 14px;
+}
+select {
+    background-color: #3a3a3a;
+    color: white;
+    border: 2px solid #555;
+}
+
+button {
+    width: 99%;
+    background-color: #00c3f4;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+    border:black;
+    padding: 10px;
+    border-radius: 5px; 
+}
+
+
+button:hover {
+    background-color: #00acd3;
+    color: whitesmoke; /* Ensure text is visible on hover */
+}
+
+#responseMessage {
+    margin-top: 20px;
+    color: #ff6b6b;
+    font-weight: bold;
+}
+
+#toggleForms button {
+    margin-top: 10px;
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 10px;
+    width: 200px;
+    cursor: pointer;
+}
+
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    max-width: 400px;
+    margin: 20px auto;
+}
+
+ul li {
+    padding: 10px;
+    margin: 6px 0;
+    background-color: #333;
+    border: 1px solid #444;
+    border-radius: 8px;
+}
+
+/* Add styling for the underlined links (Forget Password, Sign Up, Login) */
+#showLoginBtn, #showSignUpBtn, #showForgetPasswordBtn {
+    text-decoration: underline;  /* Underline the links */
+    background: linear-gradient(90deg, #090700, #13b3c8, #00d8f4);
+    color: transparent;  /* Match the theme color */
+    cursor: pointer;  /* Make it look clickable */
+    background: none;  /* Remove background */
+    border: none;  /* Remove border */
+    padding: 5px 0;  /* Add some space around the link */
+}
+
+#showLoginBtn:hover, #showSignUpBtn:hover, #showForgetPasswordBtn:hover {
+    color: #d39e00;  /* Darker yellow color on hover */
+    text-decoration: underline;  /* Keep underline on hover */
+}
+
+#fetchUsersBtn {
+    background-color: #f4b400;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+    padding: 4px;
+    border-radius: 5px;
+    border: none;
+    margin-top: 6px;
+}
+
+#fetchUsersBtn:hover {
+    background-color: #d39e00;
+}
+
+/* Add styling for the underlined links (Forget Password, Sign Up, Login) */
+#showLoginBtn, #showSignUpBtn, #showForgetPasswordBtn {
+    text-decoration: underline;  /* Underline the links */
+    color: #b9d2d7;  /* Match the theme color */
+    cursor: pointer;  /* Make it look clickable */
+    background: none;  /* Remove background */
+    border: none;  /* Remove border */
+    padding: 5px 0;  /* Add some space around the link */
+    font-size:large
+}
+
+#showLoginBtn:hover, #showSignUpBtn:hover, #showForgetPasswordBtn:hover {
+    background: none;  /* Darker yellow color on hover */
+    text-decoration: underline;  /* Keep underline on hover */
+}
+/* === Animations === */
+.car-animation-container {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    overflow: hidden;
+    background-color: #1e1e1e; /* Optional background color */
+    margin: 20px 10px;
+}
+
+.moving-car {
+    position: absolute;
+    bottom: 5px;
+    width: 200px; /* Increased size */
+    animation: moveCar 5s linear infinite;
+}
+
+.moving-car:nth-child(2) {
+    animation-delay: 2.5s; /* Stagger the second car */
+}
+
+@keyframes moveCar {
+    0% {
+        left: -120px; /* Start off-screen */
+    }
+    100% {
+        left: 100%; /* Move off-screen to the right */
+    }
+}
+@keyframes fadeSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes glowPulse {
+    0%, 100% {
+        box-shadow: 0 0 10px #f4b40080, 0 0 20px #f4b40040;
+    }
+    50% {
+        box-shadow: 0 0 20px #f4b400cc, 0 0 30px #f4b40088;
+    }
+}
+
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    100% {
+        background-position: 100% 50%;
+    }
+}
+
+h1 {
+    animation: gradientShift s linear infinite;
+}
+
+body {
+    animation: fadeSlideIn 1.2s ease-out;
+}
+
+h1, h2 {
+    animation: fadeSlideIn 1s ease-in-out;
+}
+
+form {
+    animation: fadeSlideIn 1.4s ease-out;
+    animation-fill-mode: both;
+}
+
+ul li {
+    animation: fadeSlideIn 1.6s ease;
+}
+
+/* Make buttons glow slightly on hover */
+button:hover,
+#fetchUsersBtn:hover,
+#toggleForms button:hover {
+    animation: glowPulse 1.5s ease-in-out infinite;
+}
+
+/* Dashboard container */
+.dashboard-container {
+    text-align: center;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+/* Dashboard grid */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* Dashboard items */
+.dashboard-item {
+    display: flex;
+    background-color: #ffffff;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    padding: 30px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+/* Dashboard grid */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Ensure responsive layout */
+    max-width: 800px; /* Limit the width to fit 3 items per row */
+    margin: 0 auto; /* Center the grid horizontally */
+    gap: 40px; /* Add spacing between items */
+    justify-content: center; /* Center items in the grid */
+    margin-top: 50px; /* Add spacing from the top */
+}
+
+.dashboard-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Icons */
+.dashboard-item i {
+    font-size: 50px;
+    color: #333;
+    margin-bottom: 10px;
+    
+}
+
+/* Item titles */
+.dashboard-item h3 {
+    font-size: 18px;
+    color: #333;
+    margin: 0;
+}
+
+/* Navbar */
+.navbar {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.navbar button {
+    background-color: #f4b400;
+    color: black;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.navbar button:hover {
+    background-color: #d39e00;
+    color: white;
+}
+
+/* Hero Section */
+.hero-section {
+    text-align: center;
+    margin-top: 50px;
+    color: white;
+}
+
+.hero-section h1 {
+    font-size: 3rem;
+    background: linear-gradient(90deg, rgb(178, 177, 177), #a1a1a1, #000000);
+    background-size: 200% auto;
+    color: gray;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 1000;
+    font-size: 4em;
+    animation: gradientShift 3s linear infinite;
+}
+
+.hero-section p {
+    font-size: 1.2rem;
+    margin-top: 1%;
+    color: #f4f4f4;
+}
+
+/* Forms Section */
+.form-container {
+    background-color: #2c2c2c;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    margin: 5px auto;
+    width: 300px;
+    text-align: left;
+    display: none; /* Hidden by default */
+    height: auto;
+}
+
+.form-container h2 {
+    text-align: center;
+    color: #009ff4;
+    height: auto;
+}
+
+input, select, button {
+    
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: none;
+    font-size: 14px;
+}
+
+input {
+    width: 91%;
+    background-color: #3a3a3a;
+    color: white;
+    border: 2px solid #555;
+}
+select{
+    width: 100%;
+    background-color: #3a3a3a;
+    color: white;
+    border: 2px solid #555;
+}
+#addInventoryButton {
+    background: linear-gradient(90deg, #05e532, #13c89e, #00f410);
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+    padding: 10px;
+    border-radius: 5px;
+    border: none; /* Remove default border */
+    width: 20%;
+}
+button {
+    width: 100%;
+    background: linear-gradient(90deg, #090700, #138cc8, #00a3f4);
+    background-color: transparent;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+
+button:hover {
+    background-color: #009bd3;
+    color: whitesmoke;
+}
+
+/* Animations */
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    100% {
+        background-position: 100% 50%;
+    }
+}
+
+/* Data Container */
+.data-container {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: transparent;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.data-container.hidden {
+    display: none;
+}
+
+/* Table Styling */
+table {
+    width: 50%;
+    border-collapse: collapse;
+    margin: 20px auto;
+    font-size: 16px;
+    text-align: left;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+table thead {
+    background-color: #007bff;
+    color: white;
+}
+
+table thead th {
+    padding: 12px 15px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+table tbody tr {
+    border-bottom: 1px solid #ddd;
+    transition: background-color 0.2s ease-in-out;
+}
+
+table tbody tr:hover {
+    background-color: #b31111;
+}
+
+table tbody td {
+    padding: 12px 15px;
+    color: #333;
+}table thead th {
+    padding: 12px 15px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+table tbody tr {
+    border-bottom: 1px solid #ddd;
+    transition: background-color 0.2s ease-in-out;
+}
+
+table tbody tr:hover {
+    background-color: #272525;
+}
+
+table tbody td {
+    padding: 12px 15px;
+    color: #333;
+}
+/* Buttons inside tables */
+table tbody td button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+table tbody td button.update-btn {
+    background-color: #28a745;
+    color: white;
+}
+
+table tbody td button.update-btn:hover {
+    background-color: #218838;
+}
+
+table tbody td button.delete-btn {
+    background-color: #dc3545;
+    color: white;
+}
+table tbody td button.delete-btn:hover {
+    background-color: #c82333;
+}
+
+table tbody td button.assign-btn {
+    background-color: #007bff;
+    color: white;
+}
+
+table tbody td button.assign-btn:hover {
+    background-color: #0056b3;
+}
+/* No data row styling */
+table tbody tr td[colspan] {
+    text-align: center;
+    font-style: italic;
+    color: #666;
+    padding: 20px;
+}
+/* Role-specific colors */
+tr.admin{
+    background: linear-gradient(15deg, transparent, #b7b5a9); /* Yellow for Admin */
+    color: #ffffff; /* Black text */
+}
+
+tr.employee {
+    background: linear-gradient(15deg, transparent, #168ccc); /* Green for Employee */
+    color: #fff; /* White text */
+}
+
+tr.customer {
+    background: linear-gradient(15deg, transparent, #66a4c5); /* Blue for Customer */
+    color: #fff; /* White text */
+}
+
+tr {
+    background: linear-gradient(15deg, transparent, #a9b2b7); /* Shiny blue gradient for Inventory */
+    color: #fff; /* White text */
+}
+/* Center Announcements Section */
+.announcements {
+    margin: 0 auto; /* Center horizontally */
+    padding: 20px;
+    background: transparent;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    text-align: center; /* Center text inside */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center vertically */
+    align-items: center; /* Center horizontally */
+    min-height: 50vh; /* Ensure it takes up vertical space */
+}
+.announcements h2 {
+    color: #333;
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.announcements ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.announcements ul li {
+    font-size: 1.2rem;
+    margin: 5px 0;
+    padding: 10px;
+    background: linear-gradient(135deg, transparent, #a9b2b7); /* Shiny blue gradient */
+   
+    align-items: center;
+    gap: 10px;
+    transition: transform 0.3s, background 0.3s;
+}
+
+.announcements ul li:hover {
+    background: #9e0f0f;
+    transform: translateX(5px);
+    cursor: pointer;
+}
+
+.announcements ul li i {
+    font-size: 1.5rem;
+    color: #00cff4;
+    margin-right: 10px;
+}
+
+.announcements ul li span {
+    flex-grow: 1;
+    color: #b5e0e7;
+}
+
+.announcements ul li:last-child {
+    margin-bottom: 0;
+}
+
+
+/* Contact Us Section */
+.contact-us {
+    margin: 20px auto;
+    padding: 20px;
+    background-color: transparent;
+    border:none;
+    
+    width: 80%;
+    text-align: center;
+    position: relative;
+    bottom: 0;
+}
+
+.contact-us h2 {
+    color: #f4b400;
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+}
+
+.contact-icons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.contact-item {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: color 0.3s, transform 0.3s;
+}
+
+.contact-item i {
+    font-size: 1.5rem;
+    color: #00c3f4;
+}
+
+.contact-item:hover {
+    color: #d39e00;
+    transform: scale(1.1);
+}
+
+/* Ensure Announcements and Contact Us are at the bottom */
+.page-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 120vh;
+}
+
+.page-content {
+    flex: 1;
+}
+
+/* Modal Styling */
+.modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    width: 400px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.modal-content h2 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.modal-content textarea {
+    width: 100%;
+    height: 100px;
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    resize: none;
+}
+
+.modal-content button {
+    background: #f4b400;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.modal-content button:hover {
+    background: #d39e00;
+}
+
+.modal-content .close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 1.5rem;
+    color: #333;
+    cursor: pointer;
+}
+
+.hidden {
+    display: none;
+}
+/* Services Section */
+#servicesDataContainer {
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 80%;
+    
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#servicesDataContainer h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.services-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.service-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.service-card h3 {
+    color: #007BFF;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.service-card p {
+    color: #555;
+    font-size: 14px;
+    margin: 5px 0;
+}
+
+.service-card strong {
+    color: #333;
+}
+
+/* Styling for the assigned jobs list */
+#employeeData {
+    list-style-type: none;
+    padding: 0;
+    margin: 20px auto;
+    max-width: 600px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+#employeeData li {
+    padding: 15px;
+    margin: 5px 0;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+#employeeData li:last-child {
+    border-bottom: none;
+}
+
+#employeeData li:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+}
+
+.no-jobs {
+    color: #ff6b6b;
+    font-style: italic;
+}
+
+.job-item {
+    color: #00c3f4;
+}
+
+.notification-icon {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #f4f4f4;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.notification-icon:hover {
+    transform: scale(1.1);
+    background-color: #e0e0e0;
+}
+
+.notification-icon i {
+    font-size: 24px;
+    color: #333;
+}
+
+.notification-count {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: #ff6b6b;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.notification-icon.glow {
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+}
+/* Notification Cloud */
+.notification-cloud {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    width: 300px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    overflow: hidden;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.notification-cloud-content {
+    padding: 10px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.notification-cloud-content h3 {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.notification-item {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.notification-item:last-child {
+    border-bottom: none;
+}
+
+.notification-item p {
+    margin: 0;
+    font-size: 14px;
+    color: #333;
+}
+
+.notification-item span {
+    font-size: 12px;
+    color: #666;
+    display: block;
+    margin-top: 5px;
+}
+.notification-cloud {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    width: 300px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    overflow: hidden;
+}
+
+.notification-cloud-content {
+    padding: 10px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.notification-item {
+    position: relative;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.notification-item:hover {
+    background-color: #f1f1f1;
+}
+
+.notification-item p {
+    margin: 0;
+    font-size: 14px;
+    color: #333;
+}
+
+.notification-item span {
+    font-size: 12px;
+    color: #666;
+    display: block;
+    margin-top: 5px;
+}
+
+.delete-notification-btn {
+    position: absolute;
+    top: 50%; /* Center vertically */
+    right: 10px; /* Align to the right */
+    transform: translateY(-50%); /* Adjust for vertical centering */
+    background: none;
+    border: none;
+    color: #ff4d4d; /* Softer red for better aesthetics */
+    font-size: 18px; /* Slightly larger for better visibility */
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 50%; /* Circular shape */
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.delete-notification-btn:hover {
+    background-color: #ffe6e6; /* Light red background on hover */
+    color: #cc0000; /* Darker red for hover effect */
+}
+
+
+/* Fade-in animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.contact-us-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.contact-us-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.contact-us-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.contact-us-container label {
+    font-size: 14px;
+    color: #555;
+}
+
+.contact-us-container input,
+.contact-us-container textarea {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 100%;
+}
+
+.contact-us-container button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.contact-us-container button:hover {
+    background-color: #0056b3;
+}
+
+#responseMessage {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 14px;
+    color: green;
+}
