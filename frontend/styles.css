@@ -16,7 +16,7 @@ body {
 }
 
 h1 {
-    font-size: 4rem;
+    font-size: 3rem;
     background: linear-gradient(90deg, #54b2d4, #1392c8, #00ecf4);
     background-size: 200% auto; /* Optional for animation */
     color: transparent;
