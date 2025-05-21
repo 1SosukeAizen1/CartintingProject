@@ -6,7 +6,7 @@ body {
     margin: 0;
     padding: 20px;
     text-align: center;
-    background-image: url('frontend/images/Background.png'); /* Replace with your image path */
+    background-image: url('images/Background.png'); /* Replace with your image path */
    
     background-size: cover; /* Ensures the image covers the entire background */
     background-repeat: no-repeat; /* Prevents the image from repeating */
